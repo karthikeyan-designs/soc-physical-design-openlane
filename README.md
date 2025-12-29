@@ -927,6 +927,86 @@ Screenshots of commands run
 OR gate of drive strength 2 is driving 4 fanouts
 <img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/76eaf727-0641-4474-9489-b33224ee1cb0" />
 
+Commands to perform analysis and optimize timing by replacing with OR gate of drive strength 4
+
+```tcl
+# Reports all the connections to a net
+report_net -connections _11672_
+
+# Checking command syntax
+help replace_cell
+
+# Replacing cell
+replace_cell _14510_ sky130_fd_sc_hd__or3_4
+
+# Generating custom timing report
+report_checks -fields {net cap slew input_pins} -digits 4
+```
+
+Result - slack reduced
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/36c29673-31e9-460e-938f-f38ca464b2f7" />
+
+OR gate of drive strength 2 is driving 4 fanouts
+
+Commands to perform analysis and optimize timing by replacing with OR gate of drive strength 4
+
+```tcl
+# Reports all the connections to a net
+report_net -connections _11675_
+
+# Replacing cell
+replace_cell _14514_ sky130_fd_sc_hd__or3_4
+
+# Generating custom timing report
+report_checks -fields {net cap slew input_pins} -digits 4
+```
+
+Result - slack reducedfile:
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/6482f849-aa18-4d91-acb8-04c08d84ae81" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/39126fb7-496e-4da1-a8ff-aaf23d4d4fb4" />
+
+Commands to perform analysis and optimize timing by replacing with OR gate of drive strength 4
+
+```tcl
+# Reports all the connections to a net
+report_net -connections _11675_
+
+# Replacing cell
+replace_cell _14514_ sky130_fd_sc_hd__or3_4
+
+# Generating custom timing report
+report_checks -fields {net cap slew input_pins} -digits 4
+```
+
+Result - slack reduced
+file:///home/vsduser/Pictures/or_gate4_slack.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/7eed6bc3-9f79-46c6-808e-e4903de419d8" />
+
+Commands to verify instance `_14506_`  is replaced with `sky130_fd_sc_hd__or4_4`
+
+```tcl
+# Generating custom timing report
+report_checks -from _29043_ -to _30440_ -through _14506_
+```
+
+## ECO Timing Optimization – Cell Upsizing
+
+### Final Reduced Slack Achieved
+![Final Reduced Slack](https://github.com/user-attachments/assets/4051e717-7e34-4bcd-941e-a066888e912e)
+
+### Timing Improvement Summary
+- **Initial Worst Negative Slack (WNS)**: −23.9000 ns  
+- **Final Worst Negative Slack (WNS)**: −21.9653 ns  
+- **Total Slack Improvement**: **~1.93 ns**
+
+### ECO Methodology
+- Performed **Engineering Change Order (ECO)** fixes targeting critical timing paths.
+- Applied **standard cell upsizing** on selected instances along the critical path.
+- Analyzed timing using `report_checks` between specific start and end points:
+
+
+
+
+
 
 
 
