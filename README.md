@@ -1001,7 +1001,291 @@ report_checks -from _29043_ -to _30440_ -through _14506_
 ### ECO Methodology
 - Performed **Engineering Change Order (ECO)** fixes targeting critical timing paths.
 - Applied **standard cell upsizing** on selected instances along the critical path.
-- Analyzed timing using `report_checks` between specific start and end points:
+
+#### 11. Replace the old netlist with the new netlist generated after timing ECO fix and implement the floorplan, placement and cts.
+
+Now to insert this updated netlist to PnR flow and we can use `write_verilog` and overwrite the synthesis netlist but before that we are going to make a copy of the old old netlist
+
+Commands to make copy of netlist
+
+```bash
+# Change from home directory to synthesis results directory
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/25-12_06-45/results/synthesis/
+
+# List contents of the directory
+ls
+
+# Copy and rename the netlist
+cp picorv32a.synthesis.v picorv32a.synthesis_old.v
+
+# List contents of the directory
+ls
+```
+Commands to write verilog
+
+```tcl
+# Check syntax
+help write_verilog
+
+# Overwriting current synthesis netlist
+write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/25-03_18-52/results/synthesis/picorv32a.synthesis.v
+
+# Exit from OpenSTA since timing analysis is done
+exit
+```
+Verified that the netlist is overwritten by checking that instance `_14506_`  is replaced with `sky130_fd_sc_hd__or4_4`
+
+<img width="990" height="548" alt="image" src="https://github.com/user-attachments/assets/0a9073d9-8e4c-4abf-b100-7f70754b2c2a" />
+
+
+Since we confirmed that netlist is replaced and will be loaded in PnR but since we want to follow up on the earlier 0 violation design we are continuing with the clean design to further stages
+
+Commands load the design and run necessary stages
+
+```tcl
+# Now once again we have to prep design so as to update variables
+prep -design picorv32a -tag 28-12_05-52 -overwrite
+
+# Addiitional commands to include newly added lef to openlane flow merged.lef
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+# Command to set new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+
+# Command to set new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+
+# Now that the design is prepped and ready, we can run synthesis using following command
+run_synthesis
+
+# Follwing commands are alltogather sourced in "run_floorplan" command
+init_floorplan
+place_io
+tap_decap_or
+
+# Now we are ready to run placement
+run_placement
+
+# Incase getting error
+unset ::env(LIB_CTS)
+
+# With placement done we are now ready to run CTS
+run_cts
+```
+
+Screenshots of commands run CTS
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/18af8f15-a08c-4382-a47e-086e471f05ee" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/25986f5b-ca7c-4527-82ad-b25962592fe6" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/c1252f68-59ea-4910-8836-f43aab47730a" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/c006ad17-7034-44da-97fe-875d7f539e02" />
+
+#### 12. Post-CTS OpenROAD timing analysis.
+
+Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrated OpenSTA in OpenROAD
+
+```tcl
+# Command to run OpenROAD tool
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/28-12_05-52/tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/28-12_05-52/results/cts/picorv32a.cts.def
+
+# Creating an OpenROAD database to work with
+write_db pico_cts.db
+
+# Loading the created database in OpenROAD
+read_db pico_cts.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/28-12_05-52/results/synthesis/picorv32a.synthesis_cts.v
+
+# Read library for design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link design and library
+link_design picorv32a
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all cloks as propagated clocks
+set_propagated_clock [all_clocks]
+
+# Check syntax of 'report_checks' command
+help report_checks
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Exit to OpenLANE flow
+exit
+```
+Screenshots of commands run and timing report generatedfile:
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/09bee8e8-799e-4f64-b3e5-d541c09d0e73" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/0a37e040-0f56-467f-9b31-2c5e742f5975" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/d2edf097-29ed-4996-be06-495c52b080ea" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/ed8aa3ba-e84d-433d-a90b-47e69c498b26" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/85a2349e-25f8-4142-89bb-93fdcde950f0" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/a76d3b36-3532-442e-b285-9b68684ccdd1" />
+
+#### 13. Explore post-CTS OpenROAD timing analysis by removing 'sky130_fd_sc_hd__clkbuf_1' cell from clock buffer list variable 'CTS_CLK_BUFFER_LIST'.
+
+Commands to be run in OpenLANE flow to do OpenROAD timing analysis after changing `CTS_CLK_BUFFER_LIST`
+
+```tcl
+# Checking current value of 'CTS_CLK_BUFFER_LIST'
+echo $::env(CTS_CLK_BUFFER_LIST)
+
+# Removing 'sky130_fd_sc_hd__clkbuf_1' from the list
+set ::env(CTS_CLK_BUFFER_LIST) [lreplace $::env(CTS_CLK_BUFFER_LIST) 0 0]
+
+# Checking current value of 'CTS_CLK_BUFFER_LIST'
+echo $::env(CTS_CLK_BUFFER_LIST)
+
+# Checking current value of 'CURRENT_DEF'
+echo $::env(CURRENT_DEF)
+
+# Setting def as placement def
+set ::env(CURRENT_DEF) /openLANE_flow/designs/picorv32a/runs/24-03_10-03/results/placement/picorv32a.placement.def
+
+# Run CTS again
+run_cts
+
+# Checking current value of 'CTS_CLK_BUFFER_LIST'
+echo $::env(CTS_CLK_BUFFER_LIST)
+
+# Command to run OpenROAD tool
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/28-12_05-52/tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/28-12_05-52/results/cts/picorv32a.cts.def
+
+# Creating an OpenROAD database to work with
+write_db pico_cts1.db
+
+# Loading the created database in OpenROAD
+read_db pico_cts.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/28-12_05-52/results/synthesis/picorv32a.synthesis_cts.v
+
+# Read library for design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link design and library
+link_design picorv32a
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all cloks as propagated clocks
+set_propagated_clock [all_clocks]
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Report hold skew
+report_clock_skew -hold
+
+# Report setup skew
+report_clock_skew -setup
+
+# Exit to OpenLANE flow
+exit
+
+# Checking current value of 'CTS_CLK_BUFFER_LIST'
+echo $::env(CTS_CLK_BUFFER_LIST)
+
+# Inserting 'sky130_fd_sc_hd__clkbuf_1' to first index of list
+set ::env(CTS_CLK_BUFFER_LIST) [linsert $::env(CTS_CLK_BUFFER_LIST) 0 sky130_fd_sc_hd__clkbuf_1]
+
+# Checking current value of 'CTS_CLK_BUFFER_LIST'
+echo $::env(CTS_CLK_BUFFER_LIST)
+```
+
+Screenshots of commands run and timing report generated
+
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-30-20.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/94bb93f8-2305-4e66-98cf-1ec076c0d93c" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-37-35.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/a9908e60-5e77-4c67-adf5-6b5e14d8b35a" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-37-53.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/1e412a23-f18e-48cb-8714-4e101745256d" />
+
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-00.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/07aba6ff-a49f-40d2-8e6e-a8ad6c371910" />
+
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-08.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ed6c8d82-ff07-4ccb-9464-a7d99bc5fe10" />
+
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-10.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/e4a99652-bbe4-4955-94dd-809f36d49644" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-14.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/8e37e3c8-bb4e-4218-9b5b-9340e4f29153" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-51.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/acdb3a0f-0388-4477-ab94-80e6549289f6" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-39-48.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/252a060a-26e0-4274-bc9c-bd9768351d96" />
+## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
+
+ Day 5 tasks:-
+1. Perform generation of Power Distribution Network (PDN) and explore the PDN layout.
+2. Perfrom detailed routing using TritonRoute.
+3. Post-Route parasitic extraction using SPEF extractor.
+4. Post-Route OpenSTA timing analysis with the extracted parasitics of the route.
+
+#### 1. Perform generation of Power Distribution Network (PDN) and explore the PDN layout.
+
+Commands to perform all necessary stages up until now
+
+```bash
+# Change directory to openlane flow directory
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'
+# Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
+docker
+```
+```tcl
+# Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
+./flow.tcl -interactive
+
+# Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
+package require openlane 0.9
+
+# Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'
+prep -design picorv32a
+
+# Addiitional commands to include newly added lef to openlane flow merged.lef
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+# Command to set new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+
+# Command to set new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+
+# Now that the design is prepped and ready, we can run synthesis using following command
+run_synthesis
+
+# Following commands are alltogather sourced in "run_floorplan" command
+init_floorplan
+place_io
+tap_decap_or
+
+# Now we are ready to run placement
+run_placement
+
+# Incase getting error
+unset ::env(LIB_CTS)
+
+# With placement done we are now ready to run CTS
+run_cts
+
+# Now that CTS is done we can do power distribution network
+gen_pdn 
+```
+
+Screenshots of power distribution network run
 
 
 
