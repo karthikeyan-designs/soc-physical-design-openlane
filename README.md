@@ -1,1 +1,1 @@
-# karthikeyan-designs-digital-vlsi-soc-design-planning
+# digital-vlsi-soc-design-planning
