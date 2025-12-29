@@ -122,6 +122,37 @@ exit
 # Exit from OpenLANE flow docker sub-system
 exit
 ```
+## Synthesis Results
+
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/2f109c84-0078-4b71-bfa9-fc913624ff99" />
+
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/73b31fd9-9544-4d53-9056-8db17b22972f" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/d7e2d429-f60e-4e9e-b39a-d1cffb04fc5c" />
+
+#### 2. Calculate the flop ratio.
+
+Calculate the flop ratio.
+
+```math
+Flop\ Ratio = \frac{Number\ of\ D\ Flip\ Flops}{Total\ Number\ of\ Cells}
+```
+```math
+Percentage\ of\ DFF's = Flop\ Ratio * 100
+```
+
+Calculation of Flop Ratio and DFF % from synthesis statistics report file
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/2c01fbdf-1244-4cf5-9e8e-69507c2b6b51" />
+
+
+```math
+Flop\ Ratio = \frac{1613}{14876} = 0.108429685
+```
+```math
+Percentage\ of\ DFF's = 0.108429685 * 100 = 10.84296854\ \%
+```
+
+
+
 
 
 ---
