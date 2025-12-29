@@ -461,6 +461,75 @@ gvim .magicrc
 magic -d XR &
 ```
 
+**Incorrectly implemented poly.9 simple rule correction**
+
+Screenshot of poly rules
+
+<img width="854" height="453" alt="image" src="https://github.com/user-attachments/assets/c4cb336d-c029-42b5-adc7-35a2f290ce12" />
+
+Incorrectly implemented poly.9 rule no drc violation even though spacing < 0.48
+<img width="1920" height="923" alt="VirtualBox_Physical_Design_31_10_2025_20_54_37" src="https://github.com/user-attachments/assets/4e226b6d-a716-40d6-a325-eb0536a25a79" />
+New commands inserted in sky130A.tech file to update drc
+
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/96efcc2e-1384-456a-a779-3dd8336fa119" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/9fdefb35-2964-4c1c-8373-2bc2055be712" />
+
+
+Commands to run in tkcon window
+
+```tcl
+# Loading updated tech file
+tech load sky130A.tech
+
+# Must re-run drc check to see updated drc errors
+drc check
+
+# Selecting region displaying the new errors and getting the error messages 
+drc why
+```
+
+Screenshot of magic window with rule implemented
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/faffb3ee-5903-4d27-b6f2-3bde9e3fc197" />
+
+*Incorrectly implemented nwell.4 complex rule correction**
+
+Screenshot of nwell rules
+
+<img width="990" height="525" alt="image" src="https://github.com/user-attachments/assets/5e07ac20-a2fd-4d47-bf8b-ee38197ab64b" />
+
+Incorrectly implemented nwell.4 rule no drc violation even though no tap present in nwell
+
+<img width="995" height="538" alt="image" src="https://github.com/user-attachments/assets/99859af6-918c-4aaf-9199-7c8b56a8f24f" />
+
+New commands inserted in sky130A.tech file to update drc
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/17a1cee0-0044-48dc-a2ff-74eeaaf4e137" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/b19c2d09-1b08-4422-a79e-aa59a69233c3" />
+Commands to run in tkcon window
+
+```tcl
+# Loading updated tech file
+tech load sky130A.tech
+
+# Change drc style to drc full
+drc style drc(full)
+
+# Must re-run drc check to see updated drc errors
+drc check
+
+# Selecting region displaying the new errors and getting the error messages 
+drc why
+```
+
+Screenshot of magic window with rule implemented
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/210a5ef6-7ad1-4891-ab10-da836c61a20d" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/1bb56fc5-96c3-4d09-97cd-58b095625038" />
+
+
+
+
+
+
+
 
 
 
