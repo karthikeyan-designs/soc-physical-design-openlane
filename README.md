@@ -1286,8 +1286,40 @@ gen_pdn
 ```
 
 Screenshots of power distribution network run
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2019-37-09.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/97f632e8-d635-464d-a7dc-1d4ea2933ebf" />
+
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2019-37-18.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/5bcce35e-d775-44a0-869d-65a60f9e4f53" />
 
 
+Commands to load PDN def in magic in another terminal
+
+```bash
+# Change directory to path containing generated PDN def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/28-12_05-52/tmp/floorplan/
+
+# Command to load the PDN def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read 17-pdn.def &
+```
+Screenshots of PDN def
+file:///home/vsduser/Pictures/pdn%20def.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ec2d0129-493a-4468-9d42-8169e86348c2" />
+file:///home/vsduser/Pictures/pdndef2.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ed03e574-9632-4a3d-8d03-ba82a0107889" />
+
+#### 2. Perfrom detailed routing using TritonRoute and explore the routed layout.
+
+Command to perform routing
+
+```tcl
+# Check value of 'CURRENT_DEF'
+echo $::env(CURRENT_DEF)
+
+# Check value of 'ROUTING_STRATEGY'
+echo $::env(ROUTING_STRATEGY)
+
+# Command for detailed route using TritonRoute
+run_routing
+```
+
+Screenshots of routing run
 
 
 
