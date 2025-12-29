@@ -124,7 +124,8 @@ exit
 ```
 ## Synthesis Results
 
-<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/2f109c84-0078-4b71-bfa9-fc913624ff99" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/24fe25c7-f03d-49d2-8a54-139929e3afad" />
+
 
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/73b31fd9-9544-4d53-9056-8db17b22972f" />
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/d7e2d429-f60e-4e9e-b39a-d1cffb04fc5c" />
@@ -250,8 +251,6 @@ Screenshots of floorplan def in magic
 
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/0c8f36ae-0c0f-41b4-9c22-34ca2843f3e2" />
 
-<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/3a653c75-ffe1-4c13-b2af-c08181ffd563" />
-
 #### 4. Run 'picorv32a' design congestion aware placement using OpenLANE flow and generate necessary outputs.
 
 Command to run placement
@@ -272,13 +271,203 @@ Commands to load placement def in magic in another terminal
 
 ```bash
 # Change directory to path containing generated placement def
-cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/17-03_12-06/results/placement/
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/21-12_12-13/results/placement/
 
 # Command to load the placement def in magic tool
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ```
 
-Screenshots of floorplan def in magic
+Screenshots of Placement in magic
+
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/85e646cf-b1dd-4c49-8c65-fb1d2d6f6eec" />
+Standard Cells Legally Placed
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/08a587e9-be54-4463-ada9-1c88ddb8642b" />
+
+## Day3 - Design library cell using Magic Layout and ngspice characterization 
+ IMPLEMENTATION
+  </summary>
+
+1. Clone custom inverter standard cell design from github repository: [Standard cell design and characterization using OpenLANE flow](https://github.com/nickson-jose/vsdstdcelldesign).
+2. Load the custom inverter layout in magic and explore.
+3. Spice extraction of inverter in magic.
+4. Editing the spice model file for analysis through simulation.
+5. Post-layout ngspice simulations.
+6. Find problem in the DRC section of the old magic tech file for the skywater process and fix them.
+
+
+#### 1. Clone custom inverter standard cell design from github repository
+
+```bash
+# Change directory to openlane
+cd Desktop/work/tools/openlane_working_dir/openlane
+
+# Clone the repository with custom inverter design
+git clone https://github.com/nickson-jose/vsdstdcelldesign
+
+# Change into repository directory
+cd vsdstdcelldesign
+
+#View custom inverter cell in Magic
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def sky130_inv.mag &
+
+
+# Check contents whether everything is present
+ls
+
+# Command to open custom inverter layout in magic
+magic -T sky130A.tech sky130_inv.mag &
+```
+#### 2. Load the custom inverter layout in magic and explore.
+
+Screenshot of custom inverter layout in magic
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/9d93afb7-0c8a-42bc-b977-1b42710a178c" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/ebb3c538-9917-4dee-89a2-5dc1cb4299cc" />
+
+#### 3. Spice extraction of inverter in magic.
+
+Commands for spice extraction of the custom inverter layout to be used in tkcon window of magic
+
+```tcl
+# Check current directory
+pwd
+
+# Extraction command to extract to .ext format
+extract all
+
+# Before converting ext to spice this command enable the parasitic extraction also
+ext2spice cthresh 0 rthresh 0
+
+# Converting to ext to spice
+ext2spice
+```
+Screenshot of tkcon window after running above commands
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/c48cb7ee-9567-408c-a6d8-33c14bfb88e5" />
+
+Screenshot of created spice file
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/4b05cdb9-1cd3-4ec1-8cf3-f9d4c184f248" />
+
+
+### 4. Editing the spice model file for analysis through simulation.
+Final edited spice file ready for ngspice simulation
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/d23f8674-abf4-41a7-b0f2-96f35282a810" />
+
+#### 5. Post-layout ngspice simulations.
+
+Commands for ngspice simulation
+
+```bash
+# Command to directly load spice file for simulation to ngspice
+ngspice sky130_inv.spice
+
+# Now that we have entered ngspice with the simulation spice file loaded we just have to load the plot
+plot y vs time a
+```
+
+Screenshots of ngspice run
+u<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e61cbf1d-ab3f-4ac4-8a1d-bddf702c05ac" />
+Ngspice Transient Simulation of Inverter
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/cc5c06f1-3415-4676-af3a-da5183f9291a" />
+
+Rise transition time calculation
+
+```math
+Rise\ transition\ time = Time\ taken\ for\ output\ to\ rise\ to\ 80\% - Time\ taken\ for\ output\ to\ rise\ to\ 20\%
+```
+```math
+20\%\ of\ output = 660\ mV
+```
+```math
+80\%\ of\ output = 2.64\ V
+```
+20% Screenshots
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/a8b8858a-e194-4e66-abef-14df96174f2b" />
+
+80% Screenshots
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/d332bfd7-c649-4cc6-acc4-da519b8f335e" />
+20% Screenshots
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/ea6c7101-ac77-4aa2-b22f-a1b9b74a4b2a" />
+80% Screenshots
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e2b11a2e-4a52-408f-930d-704eac347690" />
+
+Fall transition time calculation
+
+```math
+Fall\ transition\ time = Time\ taken\ for\ output\ to\ fall\ to\ 20\% - Time\ taken\ for\ output\ to\ fall\ to\ 80\%
+```
+```math
+20\%\ of\ output = 660\ mV
+```
+```math
+80\%\ of\ output = 2.64\ V
+```
+Rise Transition Time
+```math
+Rise transition time=2.24589e−09−2.18212e−09=63.77 ps
+```
+Fall Transition Time
+```math
+Fall transition time=4.09517e−09−4.05276e−09=42.41 ps
+```
+
+
+### Rise Cell Delay Calculation
+
+```math
+Rise\ Cell\ Delay = Time\ taken\ for\ output\ to\ rise\ to\ 50\% - Time\ taken\ for\ input\ to\ fall\ to\ 50\%
+```
+```math
+50\%\ of\ 3.3\ V = 1.65\ V
+```
+```math
+Rise cell delay= 2.21145e-09-2.1494e-09= 62.05 ps
+```
+### Fall Cell Delay Calculation
+
+```math
+Fall\ Cell\ Delay = Time\ taken\ for\ output\ to\ fall\ to\ 50\% - Time\ taken\ for\ input\ to\ rise\ to\ 50\%
+```
+```math
+50\%\ of\ 3.3\ V = 1.65\ V
+```
+```math
+fall cell delay = 4.07768e-09 - 4.04996e-09 =27.72ps
+```
+#### 6. Find problem in the DRC section of the old magic tech file for the skywater process and fix them.
+
+Link to Sky130 Periphery rules: [https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html](https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html)
+
+Commands to download and view the corrupted skywater process magic tech file and associated files to perform drc corrections
+
+```bash
+# Change to home directory
+cd
+
+# Command to download the lab files
+wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+
+# Since lab file is compressed command to extract it
+tar xfz drc_tests.tgz
+
+# Change directory into the lab folder
+cd drc_tests
+
+# List all files and directories present in the current directory
+ls -al
+
+# Command to view .magicrc file
+gvim .magicrc
+
+# Command to open magic tool in better graphics
+magic -d XR &
+```
+
+
+
+
+
+
+
+
 
 
 
