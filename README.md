@@ -209,7 +209,7 @@ Screenshot of floorplan run
 #### 2. Calculate the die area in microns from the values in floorplan def.
 
 Screenshot of contents of floorplan def
-file:///home/vsduser/Pictures/die_area.png<img width="1280" height="768" alt="image" src="https://github.com/user-attachments/assets/c64cc81d-3797-456d-9249-bb6c3fd53071" />
+<img width="1280" height="768" alt="image" src="https://github.com/user-attachments/assets/c64cc81d-3797-456d-9249-bb6c3fd53071" />
 
 According to floorplan def
 ```math
@@ -265,7 +265,7 @@ Screenshots of placement run
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/2c56204a-f7a9-44e5-8a10-de112833986b" />
 
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/6d8b13cc-37d8-498d-9eb7-0b27a3beb431" />
-#### 5. Load generated placement def in magic tool and explore the placement.
+### 5. Load generated placement def in magic tool and explore the placement.
 
 Commands to load placement def in magic in another terminal
 
@@ -364,7 +364,7 @@ plot y vs time a
 ```
 
 Screenshots of ngspice run
-u<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e61cbf1d-ab3f-4ac4-8a1d-bddf702c05ac" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e61cbf1d-ab3f-4ac4-8a1d-bddf702c05ac" />
 Ngspice Transient Simulation of Inverter
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/cc5c06f1-3415-4676-af3a-da5183f9291a" />
 
@@ -763,7 +763,7 @@ echo $::env(SYNTH_DRIVING_CELL)
 run_synthesis
 ```
 Comparing to previously noted run values area has increased and worst negative slack has become 0
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-25%2012-24-17.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/c9c57744-faa1-416c-900e-bc13755cff0c" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/c9c57744-faa1-416c-900e-bc13755cff0c" />
 
 <img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/870ff08f-d868-419c-bb1d-1286927a041a" />
 
@@ -820,7 +820,7 @@ expand
 
 Abutment of power pins with other cell from library clearly visible
 <img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/431a2686-82f9-4107-911e-c4256d8557c4" />
-#### 9. Do Post-Synthesis timing analysis with OpenSTA tool.
+### 9. Do Post-Synthesis timing analysis with OpenSTA tool.
 
 Since we are having 0 wns after improved timing run we are going to do timing analysis on initial run of synthesis which has lots of violations and no parameters were added to improve timing
 
@@ -979,7 +979,7 @@ report_checks -fields {net cap slew input_pins} -digits 4
 ```
 
 Result - slack reduced
-file:///home/vsduser/Pictures/or_gate4_slack.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/7eed6bc3-9f79-46c6-808e-e4903de419d8" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/7eed6bc3-9f79-46c6-808e-e4903de419d8" />
 
 Commands to verify instance `_14506_`  is replaced with `sky130_fd_sc_hd__or4_4`
 
@@ -1212,21 +1212,18 @@ echo $::env(CTS_CLK_BUFFER_LIST)
 
 Screenshots of commands run and timing report generated
 
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-30-20.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/94bb93f8-2305-4e66-98cf-1ec076c0d93c" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-37-35.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/a9908e60-5e77-4c67-adf5-6b5e14d8b35a" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-37-53.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/1e412a23-f18e-48cb-8714-4e101745256d" />
-
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-00.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/07aba6ff-a49f-40d2-8e6e-a8ad6c371910" />
-
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-08.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ed6c8d82-ff07-4ccb-9464-a7d99bc5fe10" />
-
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-10.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/e4a99652-bbe4-4955-94dd-809f36d49644" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-14.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/8e37e3c8-bb4e-4218-9b5b-9340e4f29153" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-38-51.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/acdb3a0f-0388-4477-ab94-80e6549289f6" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2018-39-48.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/252a060a-26e0-4274-bc9c-bd9768351d96" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/94bb93f8-2305-4e66-98cf-1ec076c0d93c" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/a9908e60-5e77-4c67-adf5-6b5e14d8b35a" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/1e412a23-f18e-48cb-8714-4e101745256d" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/07aba6ff-a49f-40d2-8e6e-a8ad6c371910" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ed6c8d82-ff07-4ccb-9464-a7d99bc5fe10" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/e4a99652-bbe4-4955-94dd-809f36d49644" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/8e37e3c8-bb4e-4218-9b5b-9340e4f29153" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/acdb3a0f-0388-4477-ab94-80e6549289f6" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/252a060a-26e0-4274-bc9c-bd9768351d96" />
 ## Day 5 - Final steps for RTL2GDS using tritonRoute and openSTA
 
- Day 5 tasks:-
+ Day 5 tasks:
 1. Perform generation of Power Distribution Network (PDN) and explore the PDN layout.
 2. Perfrom detailed routing using TritonRoute.
 3. Post-Route parasitic extraction using SPEF extractor.
@@ -1286,9 +1283,10 @@ gen_pdn
 ```
 
 Screenshots of power distribution network run
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2019-37-09.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/97f632e8-d635-464d-a7dc-1d4ea2933ebf" />
 
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2019-37-18.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/5bcce35e-d775-44a0-869d-65a60f9e4f53" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/97f632e8-d635-464d-a7dc-1d4ea2933ebf" />
+
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/5bcce35e-d775-44a0-869d-65a60f9e4f53" />
 
 
 Commands to load PDN def in magic in another terminal
@@ -1301,8 +1299,8 @@ cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/28-12
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read 17-pdn.def &
 ```
 Screenshots of PDN def
-file:///home/vsduser/Pictures/pdn%20def.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ec2d0129-493a-4468-9d42-8169e86348c2" />
-file:///home/vsduser/Pictures/pdndef2.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ed03e574-9632-4a3d-8d03-ba82a0107889" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ec2d0129-493a-4468-9d42-8169e86348c2" />
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/ed03e574-9632-4a3d-8d03-ba82a0107889" />
 
 #### 2. Perfrom detailed routing using TritonRoute and explore the routed layout.
 
@@ -1321,11 +1319,11 @@ run_routing
 
 Screenshots of routing run
 
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2020-32-19.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/baa084c6-b030-48a8-84eb-123535087268" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/baa084c6-b030-48a8-84eb-123535087268" />
 
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2020-33-27.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/37e05df0-bcbe-4673-8db0-2330f2a027d1" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/37e05df0-bcbe-4673-8db0-2330f2a027d1" />
 
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2020-33-42.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/b5001aae-d4f8-476e-a1a6-7d23fc235606" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/b5001aae-d4f8-476e-a1a6-7d23fc235606" />
 
 Commands to load routed def in magic in another terminal
 
@@ -1337,11 +1335,11 @@ cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/28-12
 magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
 ```
 Screenshots of routed def
-file:///home/vsduser/Pictures/routeddef.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/124ddf7b-2026-4d32-9217-f50592a3a217" />
-file:///home/vsduser/Pictures/routeddef2.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/c31244ec-c837-4ccc-81d6-be402f397e40" />
-file:///home/vsduser/Pictures/routeddef3.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e106edee-32e7-4327-ae49-51d7c280d14d" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/124ddf7b-2026-4d32-9217-f50592a3a217" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/c31244ec-c837-4ccc-81d6-be402f397e40" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e106edee-32e7-4327-ae49-51d7c280d14d" />
 
-## 3.Parasitic Extraction
+### 3.Parasitic Extraction
 
 In the newer versions of **OpenLane**, a separate SPEF extraction step is not required.  
 Upon successful completion of the **routing stage**, the **SPEF (Standard Parasitic Exchange Format)** file is **automatically generated** as part of the flow.
@@ -1349,14 +1347,14 @@ Upon successful completion of the **routing stage**, the **SPEF (Standard Parasi
 The presence of the generated SPEF file can be verified in the corresponding routing output directory before proceeding to the next analysis step.
 
 Commands to Locate and Verify the Generated `.spef` File
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-30%2011-33-25.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/9c9b147f-1b67-4d72-9e5a-888fd3979af7" />
+<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/9c9b147f-1b67-4d72-9e5a-888fd3979af7" />
 
 4. Post-Route OpenSTA timing analysis with the extracted parasitics of the route.
 Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrated OpenSTA in OpenROAD
 
 # Command to run OpenROAD tool
 openroad
-
+```
 # Reading lef file
 read_lef /openLANE_flow/designs/picorv32a/runs/28-12_05-52/tmp/merged.lef
 
@@ -1392,21 +1390,18 @@ report_checks -path_delay min_max -fields {slew trans net cap input_pins} -forma
 
 # Exit to OpenLANE flow
 exit
-
+```
 Screenshots of commands run and timing report generated
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-06-42.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/74acd59d-b709-47f7-8573-f7505d49b638" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-06-48.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/852f8174-b2be-43ad-9cc1-eee1237d52ad" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-06-58.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/7cb35175-9997-4acd-8445-89738725b81c" />
-file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-07-05.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/c4582631-1d7e-409d-8b85-6ebd9f5e7641" />
 
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/74acd59d-b709-47f7-8573-f7505d49b638" />
 
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/852f8174-b2be-43ad-9cc1-eee1237d52ad" />
 
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/7cb35175-9997-4acd-8445-89738725b81c" />
 
+<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/c4582631-1d7e-409d-8b85-6ebd9f5e7641" />
 
-
-
-
-
+---
 
 
 ## Outcome
@@ -1414,6 +1409,14 @@ This project demonstrates hands-on experience with:
 - End-to-end **RTL to GDSII physical design**
 - **Custom standard cell design and integration**
 - Open-source ASIC toolchains used in real-world VLSI workflows
+
+# Acknowledgements
+
+* [Kunal Ghosh](https://github.com/kunalg123), Co-founder, VSD Corp. Pvt. Ltd.
+* [Nickson P Jose](https://github.com/nickson-jose), Physical Design Engineer, Intel Corporation.
+* [R. Timothy Edwards](https://github.com/RTimothyEdwards), Senior Vice President of Analog and Design, efabless Corporation.
+
+
 
 ---
 
