@@ -1429,6 +1429,10 @@ Screenshots of commands run and timing report generated
 - Applied **manual ECO techniques** (cell upsizing) to reduce negative slack
 - Debugged and corrected **technology DRC rule issues** in Magic
 
+## Limitations and Observations
+
+- Cell upsizing alone cannot fully fix deep timing violations
+- High fanout nets significantly impact setup slack
 
 # Acknowledgements
 
