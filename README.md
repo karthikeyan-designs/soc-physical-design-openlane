@@ -1321,9 +1321,83 @@ run_routing
 
 Screenshots of routing run
 
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2020-32-19.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/baa084c6-b030-48a8-84eb-123535087268" />
 
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2020-33-27.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/37e05df0-bcbe-4673-8db0-2330f2a027d1" />
 
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2020-33-42.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/b5001aae-d4f8-476e-a1a6-7d23fc235606" />
 
+Commands to load routed def in magic in another terminal
+
+```bash
+# Change directory to path containing routed def
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/28-12_05-52/results/routing/
+
+# Command to load the routed def in magic tool
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
+```
+Screenshots of routed def
+file:///home/vsduser/Pictures/routeddef.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/124ddf7b-2026-4d32-9217-f50592a3a217" />
+file:///home/vsduser/Pictures/routeddef2.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/c31244ec-c837-4ccc-81d6-be402f397e40" />
+file:///home/vsduser/Pictures/routeddef3.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/e106edee-32e7-4327-ae49-51d7c280d14d" />
+
+## 3.Parasitic Extraction
+
+In the newer versions of **OpenLane**, a separate SPEF extraction step is not required.  
+Upon successful completion of the **routing stage**, the **SPEF (Standard Parasitic Exchange Format)** file is **automatically generated** as part of the flow.
+
+The presence of the generated SPEF file can be verified in the corresponding routing output directory before proceeding to the next analysis step.
+
+Commands to Locate and Verify the Generated `.spef` File
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-30%2011-33-25.png<img width="1920" height="923" alt="image" src="https://github.com/user-attachments/assets/9c9b147f-1b67-4d72-9e5a-888fd3979af7" />
+
+4. Post-Route OpenSTA timing analysis with the extracted parasitics of the route.
+Commands to be run in OpenLANE flow to do OpenROAD timing analysis with integrated OpenSTA in OpenROAD
+
+# Command to run OpenROAD tool
+openroad
+
+# Reading lef file
+read_lef /openLANE_flow/designs/picorv32a/runs/28-12_05-52/tmp/merged.lef
+
+# Reading def file
+read_def /openLANE_flow/designs/picorv32a/runs/28-12_05-52/results/routing/picorv32a.def
+
+# Creating an OpenROAD database to work with
+write_db pico_route.db
+
+# Loading the created database in OpenROAD
+read_db pico_route.db
+
+# Read netlist post CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/ 28-12_05-52/results/synthesis/picorv32a.synthesis_preroute.v
+
+# Read library for design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link design and library
+link_design picorv32a
+
+# Read in the custom sdc we created
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+# Setting all cloks as propagated clocks
+set_propagated_clock [all_clocks]
+
+# Read SPEF
+read_spef /openLANE_flow/designs/picorv32a/runs/ 28-12_05-52/results/routing/picorv32a.spef
+
+# Generating custom timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Exit to OpenLANE flow
+exit
+
+Screenshots of commands run and timing report generated
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-06-42.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/74acd59d-b709-47f7-8573-f7505d49b638" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-06-48.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/852f8174-b2be-43ad-9cc1-eee1237d52ad" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-06-58.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/7cb35175-9997-4acd-8445-89738725b81c" />
+file:///home/vsduser/Pictures/Screenshot%20from%202025-12-28%2021-07-05.png<img width="955" height="910" alt="image" src="https://github.com/user-attachments/assets/c4582631-1d7e-409d-8b85-6ebd9f5e7641" />
 
 
 
