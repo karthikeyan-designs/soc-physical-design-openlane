@@ -1403,20 +1403,38 @@ Screenshots of commands run and timing report generated
 
 ---
 
+## Final Results Summary
 
-## Outcome
-This project demonstrates hands-on experience with:
-- End-to-end **RTL to GDSII physical design**
-- **Custom standard cell design and integration**
-- Open-source ASIC toolchains used in real-world VLSI workflows
+- **Design**: picorv32a (RISC-V Core)
+- **Technology**: Sky130 (130 nm)
+- **Flow**: OpenLANE RTL-to-GDSII
+- **Custom Cell Integrated**: Inverter (sky130_vsdinv)
+
+### Timing
+- Initial Worst Negative Slack (WNS): **−23.90 ns**
+- Final WNS after ECO optimizations: **−21.96 ns**
+- Slack improvement achieved through **cell upsizing ECO**
+
+### Physical Verification
+- **DRC**: Verified using Magic
+- **PEX**: SPEF generated automatically after routing
+- **STA**: Post-route timing analysis using OpenSTA
+
+## Key Learnings
+
+- Gained hands-on experience with the complete **RTL-to-GDSII flow**
+- Understood the impact of **cell sizing, fanout, and buffering** on timing
+- Learned **custom standard cell design**, LEF generation, and library integration
+- Performed **post-layout timing analysis** using OpenSTA
+- Applied **manual ECO techniques** (cell upsizing) to reduce negative slack
+- Debugged and corrected **technology DRC rule issues** in Magic
+
 
 # Acknowledgements
 
 * [Kunal Ghosh](https://github.com/kunalg123), Co-founder, VSD Corp. Pvt. Ltd.
 * [Nickson P Jose](https://github.com/nickson-jose), Physical Design Engineer, Intel Corporation.
 * [R. Timothy Edwards](https://github.com/RTimothyEdwards), Senior Vice President of Analog and Design, efabless Corporation.
-
-
 
 ---
 
